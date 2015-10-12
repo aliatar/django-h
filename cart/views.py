@@ -1,11 +1,8 @@
-from django.shortcuts import render
-from .models import cart
+from django.shortcuts import render, get_object_or_404
+from .models import Cart
 from django.http import HttpResponseRedirect
 from pro.models import pro
 # Create your views here.
-
-def cartview(request):
-    return render(request , 'cart.html')
 
 def add(request, slug):
     p = pro.objects.get(slug=slug)
@@ -14,21 +11,32 @@ def add(request, slug):
     try:
         active = request.session['cart']
     except:
-        request.session['cart'] = 'empty'
+        request.session['cart'] = 'Empty'
 
-    if request.session != 'empty':
+    if request.session['cart'] != 'Empty':
         cart = request.session['cart']
-        update_cart = cart.objects.get(id=cart)
-        update_cart.product.add(p)
+        update_cart = Cart.objects.get(id=cart)
+        update_cart.pro.add(p)
         update_cart.save()
         request.session['total_item'] = len(pro.objects.all())
 
     else:
-        new_cart = cart()
+        new_cart = Cart()
         new_cart.save()
         new_cart.product.add(p)
-        request.session['cart'] = cart.id
+        request.session['cart'] = new_cart.id
         request.session['cart'] = len(pro.objects.all())
 
     return HttpResponseRedirect('/pro/%s'%(slug))
+
+def cartview(request):
+    try:
+        cart_id = request.session['cart']
+        cart_exist = Cart.objects.get(id=cart_id)
+    except:
+        cart_exist = False
+    return render(request , 'cart.html',{
+        'cart_exist' : cart_exist
+        })
+
 

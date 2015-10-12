@@ -5,7 +5,7 @@ from pro.models import pro
 from django.contrib.auth.models import User
 # Create your models here.
 
-class cart(models.Model):
+class Cart(models.Model):
     user = models.ForeignKey(User , null=True , blank= True)
     t_peice = models.CharField(max_length = 120 , default = 0)
     active = models.BooleanField(default = True)
