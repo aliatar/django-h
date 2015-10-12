@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for sl in slg %}
+<h1>{{ sl.name }}</h1>
+{% if sl.des %}
+<p>{{ sl.des }}</p>
+{% endif %}
+{{ sl.slug }}
+{% endfor %}
+{% endblock %}

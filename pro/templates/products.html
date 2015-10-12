@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div style='padding-top:35px;'>
+<ol>
+{% for a in prod %}
+<li><a href={% if a.slug %} {{a.slug}} {% endif %}>  {{ a.name }}</a> {{ a.slug }}
+{% endfor %}
+</ol>
+{% endblock %}
+
+
+
